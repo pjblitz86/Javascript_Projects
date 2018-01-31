@@ -17,6 +17,8 @@ val = today.getSeconds();
 
 val = today.getTime(); // time stamp since 1970 in seconds
 
-birthday
+birthday.setMonth(2); // starts from 0
+birthday.setDate(6);
+birthday.setFullYear(1986);
 
-console.log(val);
+console.log(birthday);
