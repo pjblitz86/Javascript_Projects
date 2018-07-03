@@ -103,9 +103,79 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({1:[function(require,module,exports) {
+})({11:[function(require,module,exports) {
+"use strict";
 
-},{}],5:[function(require,module,exports) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  search: function search(searchTerm, searchLimit, sortBy) {
+    fetch("http://www.reddit.com/search.json?q=" + searchTerm + "&sort=" + sortBy + "&limit=" + searchLimit).then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      return console.log(data);
+    });
+  }
+};
+},{}],1:[function(require,module,exports) {
+'use strict';
+
+var _redditapi = require('./redditapi');
+
+var _redditapi2 = _interopRequireDefault(_redditapi);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var searchForm = document.getElementById('search-form');
+var searchInput = document.getElementById('search-input');
+
+// Form Event Listener
+searchForm.addEventListener('submit', function (e) {
+  // get search term
+  var searchTerm = searchInput.value;
+  // Get sort
+  var sortBy = document.querySelector('input[name="sortby"]:checked').value;
+  // Get limit
+  var searchLimit = document.getElementById('limit').value;
+
+  // Check input for not empty
+  if (searchTerm === '') {
+    // show message
+    showMessage('Please add a search term', 'alert-danger');
+  }
+
+  // Clear input
+  searchInput.value = '';
+
+  // Search Reddit
+  _redditapi2.default.search(searchTerm, searchLimit, sortBy);
+
+  e.preventDefault();
+});
+
+// show message - creates a div with DOM manipulation
+function showMessage(message, className) {
+  // create a div
+  var div = document.createElement('div');
+  // add class
+  div.className = 'alert ' + className;
+  // add the text
+  div.appendChild(document.createTextNode(message));
+  // Get parent
+  var searchContainer = document.getElementById('search-container');
+  // Get search
+  var search = document.getElementById('search');
+
+  // Insert message
+  searchContainer.insertBefore(div, search);
+
+  // timeout the message
+  setTimeout(function () {
+    return document.querySelector('.alert').remove();
+  }, 3000);
+}
+},{"./redditapi":11}],5:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -276,3 +346,4 @@ function hmrAccept(bundle, id) {
   });
 }
 },{}]},{},[5,1], null)
+//# sourceMappingURL=/Finddit_RedditFinder_Project.48032668.map
