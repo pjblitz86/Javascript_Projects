@@ -111,7 +111,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   search: function search(searchTerm, searchLimit, sortBy) {
-    return fetch("http://www.reddit.com/search.json?q=" + searchTerm + "&sort=" + sortBy + "&limit=" + searchLimit).then(function (res) {
+    return fetch("https://www.reddit.com/search.json?q=" + searchTerm + "&sort=" + sortBy + "&limit=" + searchLimit).then(function (res) {
       return res.json();
     }).then(function (data) {
       return data.data.children.map(function (data) {
@@ -227,7 +227,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '61457' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '63436' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
