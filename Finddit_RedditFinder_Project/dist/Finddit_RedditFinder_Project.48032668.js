@@ -111,10 +111,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   search: function search(searchTerm, searchLimit, sortBy) {
-    fetch("http://www.reddit.com/search.json?q=" + searchTerm + "&sort=" + sortBy + "&limit=" + searchLimit).then(function (res) {
+    return fetch("http://www.reddit.com/search.json?q=" + searchTerm + "&sort=" + sortBy + "&limit=" + searchLimit).then(function (res) {
       return res.json();
     }).then(function (data) {
-      return console.log(data);
+      return data.data.children.map(function (data) {
+        return data.data;
+      });
+    }).catch(function (err) {
+      return console.log(err);
     });
   }
 };
@@ -149,7 +153,19 @@ searchForm.addEventListener('submit', function (e) {
   searchInput.value = '';
 
   // Search Reddit
-  _redditapi2.default.search(searchTerm, searchLimit, sortBy);
+  _redditapi2.default.search(searchTerm, searchLimit, sortBy).then(function (results) {
+    console.log(results);
+    var output = '<div class="card-columns">';
+    // loop through posts
+    results.forEach(function (post) {
+      // check if it has image
+      var image = post.preview ? post.preview.images[0].source.url : "https://cdn.comparitech.com/wp-content/uploads/2017/08/reddit-1.jpg";
+
+      output += '\n        <div class="card">\n          <img class="card-img-top" src="' + image + '" alt="Card image cap">\n          <div class="card-body">\n            <h5 class="card-title">' + post.title + '</h5>\n            <p class="card-text">' + truncateText(post.selftext, 100) + '</p>\n            <a href="' + post.url + '" target="_blank" class="btn btn-primary">Read more...</a>\n            <hr>\n            <span class="badge badge-secondary">Subreddit: ' + post.subreddit + '</span>\n            <span class="badge badge-dark">Score: ' + post.score + '</span>\n          </div>\n        </div>\n        ';
+    });
+    output += '</div>';
+    document.getElementById('results').innerHTML = output;
+  });
 
   e.preventDefault();
 });
@@ -174,6 +190,13 @@ function showMessage(message, className) {
   setTimeout(function () {
     return document.querySelector('.alert').remove();
   }, 3000);
+}
+
+// truncate text
+function truncateText(text, limit) {
+  var shortened = text.indexOf(' ', limit);
+  if (shortened == -1) return text;
+  return text.substring(0, shortened);
 }
 },{"./redditapi":11}],5:[function(require,module,exports) {
 var global = arguments[3];
