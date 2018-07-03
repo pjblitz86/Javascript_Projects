@@ -6,7 +6,7 @@ const ctx = canvas.getContext('2d');
 let img = new Image();
 let fileName = '';
 
-const donwloadBtn = document.getElementById('download-btn');
+const downloadBtn = document.getElementById('download-btn');
 const uploadFile = document.getElementById('upload-file');
 const revertBtn = document.getElementById('revert-btn');
 
@@ -81,6 +81,13 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Revert Filters
+revertBtn.addEventListener('click', (e) => {
+  Caman('#canvas', img, function() {
+    this.revert();
+  });
+});
+
 
 // Upload File LISTENER
 uploadFile.addEventListener('change', (e) => {
@@ -114,3 +121,33 @@ uploadFile.addEventListener('change', (e) => {
     }
   }, false);
 });
+
+// DOWNLOAD EVENT
+downloadBtn.addEventListener('click', (e) => {
+  // Get file extension
+  const fileExtension = fileName.slice(-4);
+  // init new file name
+  let newFileName;
+  // check image file type and append new extension
+  if(fileExtension === '.jpg' || fileExtension === '.png') {
+    newFileName = fileName.substring(0, fileName.length-4) + '-edited.jpg';
+  }
+
+  // Call download function
+  download(canvas, newFileName);
+});
+
+// Download function
+function download(canvas, filename) {
+  // init event
+  let e;
+  // create link
+  const link = document.createElement('a');
+  // set props
+  link.download = filename;
+  link.href = canvas.toDataURL('image/jpeg', 0.8);
+  // New mouse event
+  e = new MouseEvent('click');
+  // Dispatch event
+  link.dispatchEvent(e);
+}
