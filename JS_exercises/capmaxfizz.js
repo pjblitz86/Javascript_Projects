@@ -15,12 +15,12 @@ const server = http.createServer((req, res) => {
 // ex. capitalizeLetters('i love javascript') === 'I Love Javascript'
 function capitalizeLetters(str) {
   // 1. old school with regular for loop and substring
-  // const strArr = str.toLowerCase().split(' ');
-  // for(var i=0; i< strArr.length; i++) {
-  //   strArr[i] = strArr[i].substring(0,1).toUpperCase() + 
-  //   strArr[i].substring(1);
-  // }
-  // return strArr.join(' ');
+  const strArr = str.toLowerCase().split(' ');
+  for(var i=0; i< strArr.length; i++) {
+    strArr[i] = strArr[i].substring(0,1).toUpperCase() + 
+    strArr[i].substring(1);
+  }
+  return strArr.join(' ');
 
   // 2. use map - more impressive, cleaner way
   // return str
