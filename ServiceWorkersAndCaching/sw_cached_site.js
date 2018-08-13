@@ -1,23 +1,8 @@
-const cacheName = 'v1';
-const cacheAssets = [
-  'index.html',
-  'about.html',
-  'css/style.css',
-  'js/main.js'
-];
+const cacheName = 'v2';
 
 // call install event
 self.addEventListener('install', e => {
   console.log('service worker: installed');
-  e.waitUntil(
-    caches
-      .open(cacheName)
-      .then(cache => {
-        console.log('Service worker: caching files');
-        cache.addAll(cacheAssets);
-      })
-      .then(() => self.skipWaiting())
-  );
 });
 
 // call activate event
@@ -42,6 +27,18 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   console.log('Service worker: fetching');
   e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+    fetch(e.request)
+      .then(res => {
+        // make clone of response
+        const resClone = res.clone();
+        // open cache
+        caches
+          .open(cacheName)
+          .then(cache => {
+            // add response to cache
+            cache.put(e.request, resClone);
+          });
+          return res;
+      }).catch(err => caches.match(e.request). then(res => res))
   );
 });
