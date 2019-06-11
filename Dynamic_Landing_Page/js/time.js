@@ -1,7 +1,5 @@
 const time = document.getElementById('time'),
-  greeting = document.getElementById('greeting'),
-  name = document.getElementById('name'),
-  focus = document.getElementById('focus');
+  greeting = document.getElementById('greeting');
 
 function showTime() {
   let today = new Date(),
