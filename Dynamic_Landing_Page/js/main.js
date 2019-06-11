@@ -15,8 +15,14 @@ function showTime() {
 
   hour = hour % 12 || 12;
 
-  time.innerHTML = `${hour}<span>:</span>${min}<span>:</span>${sec} ${AMorPM}`;
+  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)} ${AMorPM}`;
   setTimeout(showTime, 1000);
+}
+
+function addZero(number) {
+  return (parseInt(number, 10) < 10
+    ? '0'
+    : '') + number;
 }
 
 showTime();
