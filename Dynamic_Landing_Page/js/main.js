@@ -25,4 +25,23 @@ function addZero(number) {
     : '') + number;
 }
 
+function setBackgroundwithGreeting() {
+  let today = new Date(),
+    hour = today.getHours();
+
+  if (hour < 12) {
+    document.body.style.backgroundImage = "url('./img/morning.jpg')";
+    greeting.textContent = 'Good Morning, ';
+  } else if (hour < 18) {
+    document.body.style.backgroundImage = "url('./img/afternoon.jpg')";
+    greeting.textContent = 'Good Afternoon, ';
+  } else {
+    document.body.style.backgroundImage = "url('./img/evening.jpg')";
+    document.body.style.color = 'white'
+    greeting.textContent = 'Good Evening, ';
+
+  }
+}
+
 showTime();
+setBackgroundwithGreeting();
