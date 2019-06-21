@@ -79,6 +79,7 @@ function restartGame() {
   <p>Player: 0</p>
   <p>Computer: 0</p>
   `;
+  restart.style.display = "none";
 }
 
 function clearModal(e) {
