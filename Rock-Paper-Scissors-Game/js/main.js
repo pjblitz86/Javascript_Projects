@@ -13,7 +13,8 @@ function play(e) {
   restart.style.display = "inline-block";
   const playerChoice = e.target.id;
   const computerChoice = getComputerChoice();
-  console.log(playerChoice, computerChoice);
+
+  const winner = getWinner(playerChoice, computerChoice);
 }
 
 function getComputerChoice() {
@@ -24,6 +25,20 @@ function getComputerChoice() {
     return "paper";
   } else {
     return "rock";
+  }
+}
+
+function getWinner(p, c) {
+  if (p === c) {
+    return "draw";
+  } else if (
+    (p === "rock" && c === "paper") ||
+    (p === "paper" && c === "scissors") ||
+    (p === "scissors" && c === "rock")
+  ) {
+    return "computer";
+  } else {
+    return "player";
   }
 }
 
