@@ -13,9 +13,8 @@ function play(e) {
   restart.style.display = "inline-block";
   const playerChoice = e.target.id;
   const computerChoice = getComputerChoice();
-
   const winner = getWinner(playerChoice, computerChoice);
-  console.log(playerChoice, computerChoice, winner);
+  showWinner(winner, computerChoice);
 }
 
 function getComputerChoice() {
@@ -65,8 +64,21 @@ function showWinner(winner, computerChoice) {
     <p>Computer chose <strong>${computerChoice}</strong></p>
     `;
   }
+  score.innerHTML = `
+  <p>Player: ${scoreboard.player}</p>
+  <p>Computer: ${scoreboard.computer}</p>
+  `;
+
+  modal.style.display = "block";
+}
+
+function clearModal(e) {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
 }
 
 choices.forEach(choice => {
   choice.addEventListener("click", play);
 });
+window.addEventListener("click", clearModal);
