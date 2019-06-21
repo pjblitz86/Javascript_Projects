@@ -10,7 +10,21 @@ const scoreboard = {
 };
 
 function play(e) {
-  console.log(e.target.id);
+  restart.style.display = "inline-block";
+  const playerChoice = e.target.id;
+  const computerChoice = getComputerChoice();
+  console.log(playerChoice, computerChoice);
+}
+
+function getComputerChoice() {
+  const randomNumber = Math.floor(Math.random() * 3);
+  if (randomNumber == 2) {
+    return "scissors";
+  } else if (randomNumber == 1) {
+    return "paper";
+  } else {
+    return "rock";
+  }
 }
 
 choices.forEach(choice => {
