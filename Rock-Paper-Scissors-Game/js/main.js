@@ -15,6 +15,7 @@ function play(e) {
   const computerChoice = getComputerChoice();
 
   const winner = getWinner(playerChoice, computerChoice);
+  console.log(playerChoice, computerChoice, winner);
 }
 
 function getComputerChoice() {
@@ -39,6 +40,30 @@ function getWinner(p, c) {
     return "computer";
   } else {
     return "player";
+  }
+}
+
+function showWinner(winner, computerChoice) {
+  if (winner === "player") {
+    scoreboard.player++;
+    result.innerHTML = `
+    <h1 class="text-win">You Win</h1>
+    <i class="fas fa-hand-${computerChoice} fa-10x"></i>
+    <p>Computer chose <strong>${computerChoice}</strong></p>
+    `;
+  } else if (winner === "computer") {
+    scoreboard.computer++;
+    result.innerHTML = `
+    <h1 class="text-lose">You Lose</h1>
+    <i class="fas fa-hand-${computerChoice} fa-10x"></i>
+    <p>Computer chose <strong>${computerChoice}</strong></p>
+    `;
+  } else {
+    result.innerHTML = `
+    <h1>It's Draw</h1>
+    <i class="fas fa-hand-${computerChoice} fa-10x"></i>
+    <p>Computer chose <strong>${computerChoice}</strong></p>
+    `;
   }
 }
 
