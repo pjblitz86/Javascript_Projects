@@ -30,6 +30,21 @@ generateEl.addEventListener("click", () => {
   );
 });
 
+// Copy password to clipboard
+clipboardEl.addEventListener("click", () => {
+  const textarea = document.createElement("textarea");
+  const password = resultEl.innerText;
+  if (!password) {
+    return;
+  }
+  textarea.value = password;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  textarea.remove();
+  alert("Password copied to clipboard");
+});
+
 function generatePassword(upper, lower, number, symbol, length) {
   let generatedPassword = "";
   const typesCount = upper + lower + number + symbol;
@@ -52,7 +67,7 @@ function generatePassword(upper, lower, number, symbol, length) {
   return finalPassword;
 }
 
-// Generator functions - https://www.ascii-code.com/
+// Random generator functions - https://www.ascii-code.com/
 
 function getRandomUpper() {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
