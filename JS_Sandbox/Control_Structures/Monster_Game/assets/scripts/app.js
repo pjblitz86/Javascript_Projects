@@ -11,18 +11,32 @@ const LOG_EVENT_MONSTER_ATTACK = "MONSTER_ATTACK";
 const LOG_EVENT_PLAYER_HEAL = "PLAYER_HEAL";
 const LOG_EVENT_GAME_OVER = "GAME_OVER";
 
-const enteredValue = prompt(
-  "Enter maximum life for you and the monster",
-  "100"
-);
-
 let battleLog = [];
-let chosenMaxLife = parseInt(enteredValue);
+let lastLoggedEntry;
 
-// when user enters NaN
-if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
-  chosenMaxLife = 100;
+function getMaxLifeValues() {
+  const enteredValue = prompt(
+    "Enter maximum life for you and the monster",
+    "100"
+  );
+  const parsedValue = parseInt(enteredValue);
+  if (isNaN(parsedValue) || parsedValue <= 0) {
+    throw { message: "Invalid user input, NaN" };
+  }
+  return parsedValue;
 }
+
+let chosenMaxLife;
+try {
+  chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+  console.log(error);
+  chosenMaxLife = 100;
+  alert(`You entered sum ting wong, default value of ${chosenMaxLife} is used`);
+} finally {
+  // for clean-up work - always runs
+}
+
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
 let hasBonusLife = true;
@@ -183,11 +197,17 @@ function healPlayerHandler() {
 }
 
 function printLogHandler() {
+  let i = 0;
   for (const log of battleLog) {
-    console.log(`#${log}`);
-    for (const key in log) {
-      console.log(key);
+    if ((!lastLoggedEntry && lastLoggedEntry !== 0) || lastLoggedEntry < i) {
+      console.log(`#${i}`);
+      for (const key in log) {
+        console.log(`${key} => ${log[key]}`);
+      }
+      lastLoggedEntry = i;
+      break;
     }
+    i++;
   }
 }
 
