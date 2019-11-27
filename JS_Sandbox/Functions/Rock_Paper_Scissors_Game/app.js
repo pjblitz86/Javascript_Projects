@@ -9,7 +9,7 @@ const RESULT_PLAYER_WINS = "PLAYER WINS";
 const RESULT_COMPUTER_WINS = "COMPUTER WINS";
 let gameIsRunning = false;
 
-const getPlayerChoice = function() {
+const getPlayerChoice = () => {
   const selection = prompt(
     `${ROCK}, ${PAPER} or ${SCISSORS}?`,
     ""
@@ -21,7 +21,7 @@ const getPlayerChoice = function() {
   return selection;
 };
 
-const getComputerChoice = function() {
+const getComputerChoice = () => {
   const randomValue = Math.random();
   if (randomValue < 0.34) {
     return ROCK;
@@ -32,21 +32,16 @@ const getComputerChoice = function() {
   }
 };
 
-const getWinner = function(cChoice, pChoice) {
-  if (cChoice === pChoice) {
-    return RESULT_DRAW;
-  } else if (
-    (cChoice === ROCK && pChoice === PAPER) ||
-    (cChoice === PAPER && pChoice === SCISSORS) ||
-    (cChoice === SCISSORS && pChoice === ROCK)
-  ) {
-    return RESULT_PLAYER_WINS;
-  } else {
-    return RESULT_COMPUTER_WINS;
-  }
-};
+const getWinner = (cChoice, pChoice) =>
+  cChoice === pChoice
+    ? RESULT_DRAW
+    : (cChoice === ROCK && pChoice === PAPER) ||
+      (cChoice === PAPER && pChoice === SCISSORS) ||
+      (cChoice === SCISSORS && pChoice === ROCK)
+    ? RESULT_PLAYER_WINS
+    : RESULT_COMPUTER_WINS;
 
-startGameBtn.addEventListener("click", function() {
+startGameBtn.addEventListener("click", () => {
   if (gameIsRunning) {
     return;
   }
@@ -55,5 +50,14 @@ startGameBtn.addEventListener("click", function() {
   const playerChoice = getPlayerChoice();
   const computerChoice = getComputerChoice();
   const winner = getWinner(computerChoice, playerChoice);
-  console.log(winner);
+  let message = `You picked ${playerChoice} and computer - ${computerChoice}. `;
+  if (winner === RESULT_DRAW) {
+    message += "It's a DRAW!";
+  } else if (winner === RESULT_PLAYER_WINS) {
+    message += "YOU WON!";
+  } else {
+    message += "Computer won!";
+  }
+  alert(message);
+  gameIsRunning = false;
 });
