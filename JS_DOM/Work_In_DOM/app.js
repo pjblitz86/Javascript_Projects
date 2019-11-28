@@ -39,3 +39,31 @@ const listItemElements = document.getElementsByTagName("li"); // gives live-list
 for (const listItem of listItemElements) {
   console.dir(listItem);
 }
+
+// TRAVERSING THE DOM
+
+// CHILDS and DESCENDANTS
+// select 2nd li
+const ul = document.querySelector("ul");
+console.log(ul.children[1]); // gives specific direct children
+console.log(ul.childNodes); // gives descendants
+
+// select 1st li
+console.log(ul.firstChild);
+console.log(ul.firstElementChild);
+
+// standard css selector way
+const li2nd = document.querySelector("li:nth-child(2)");
+console.log(li2nd);
+
+// PARENTS AND ANCESTORS
+
+const li1st = document.querySelector("li");
+console.log(li1st.parentElement);
+console.log(li1st.parentNode); // same in most cases
+console.log(li1st.closest("body")); // for ancestors
+
+// SIBLINGS - on same level
+console.log(ul.previousSibling); // will be text element
+console.log(ul.previousElementSibling); // the element node
+console.log(ul.nextElementSibling); // the element node
