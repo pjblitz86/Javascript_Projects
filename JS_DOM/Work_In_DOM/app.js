@@ -64,6 +64,7 @@ console.log(li1st.parentNode); // same in most cases
 console.log(li1st.closest("body")); // for ancestors
 
 // SIBLINGS - on same level
-console.log(ul.previousSibling); // will be text element
-console.log(ul.previousElementSibling); // the element node
-console.log(ul.nextElementSibling); // the element node
+const section = document.querySelector("section");
+console.log(section.previousSibling); // will be text element
+console.log(section.previousElementSibling); // the element node
+console.log(section.nextElementSibling); // the element node
