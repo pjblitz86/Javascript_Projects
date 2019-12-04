@@ -49,3 +49,14 @@ ul.firstElementChild.replaceWith(newLi);
 const newLi3 = document.createElement("li");
 newLi3.textContent = "Dynamic item adjacent";
 newLi.insertAdjacentElement("afterend", newLi3);
+
+// clone node then insert
+const newLi4 = newLi3.cloneNode(true); // if pass true then it's a deep clone
+
+newLi.insertAdjacentElement("afterend", newLi4);
+
+// HTMLCollection is live while NodeCollection is static snapshot
+
+// remove some li
+// ul.remove();
+newLi.parentElement.removeChild(newLi); // more supported broserwise
