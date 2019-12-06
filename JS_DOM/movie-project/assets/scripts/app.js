@@ -17,7 +17,7 @@ const updateUI = () => {
   }
 };
 
-const deleteMovie = movieId => {
+const deleteMovieHandler = movieId => {
   let movieIndex = 0;
 
   for (const movie of movies) {
@@ -29,6 +29,8 @@ const deleteMovie = movieId => {
   movies.splice(movieIndex, 1);
   const listRoot = document.getElementById("movie-list");
   listRoot.children[movieIndex].remove();
+  closeMovieDeletionModal();
+  updateUI();
 };
 
 const closeMovieDeletionModal = () => {
@@ -36,10 +38,22 @@ const closeMovieDeletionModal = () => {
   deleteMovieModal.classList.remove("visible");
 };
 
-const deleteMovieHandler = movieId => {
+const startDeleteMovieHandler = movieId => {
   deleteMovieModal.classList.add("visible");
   toggleBackdropHandler();
-  // deleteMovie(movieId);
+
+  const cancelDeletionBtn = deleteMovieModal.querySelector(".btn--passive");
+  let confirmDeletionBtn = deleteMovieModal.querySelector(".btn--danger");
+  // workaround for confirm delete gone eventListener
+  confirmDeletionBtn.replaceWith(confirmDeletionBtn.cloneNode(true));
+  confirmDeletionBtn = deleteMovieModal.querySelector(".btn--danger");
+
+  cancelDeletionBtn.removeEventListener("click", closeMovieDeletionModal);
+  cancelDeletionBtn.addEventListener("click", closeMovieDeletionModal);
+  confirmDeletionBtn.addEventListener(
+    "click",
+    deleteMovieHandler.bind(null, movieId)
+  );
 };
 
 const renderNewMovieElement = (id, title, imageUrl, rating) => {
@@ -54,7 +68,10 @@ const renderNewMovieElement = (id, title, imageUrl, rating) => {
       <p>${rating}/5 stars</p>
     </div>
   `;
-  newMovieElement.addEventListener("click", deleteMovieHandler.bind(null, id));
+  newMovieElement.addEventListener(
+    "click",
+    startDeleteMovieHandler.bind(null, id)
+  );
   const listRoot = document.getElementById("movie-list");
   listRoot.append(newMovieElement);
 };
@@ -75,6 +92,7 @@ const toggleBackdropHandler = () => {
 const backdropClickHandler = () => {
   closeMovieModal();
   closeMovieDeletionModal();
+  clearMovieInputs();
 };
 
 const cancelAddMovieHandler = () => {
