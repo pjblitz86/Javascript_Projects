@@ -55,7 +55,11 @@ const addMovieHandler = () => {
       title,
       [extraName]: extraName
     },
-    id: Math.random()
+    id: Math.random().toString(),
+    getFormattedTitle() {
+      // cannot use arrow function here
+      this.info.title.toUpperCase(); // 'this' refers to closest outer object
+    }
   };
 
   movies.push(newMovie);
