@@ -44,3 +44,8 @@ person2.city = "Kaunas";
 console.log(anotherPerson); // wont add the property cause it was a copied object
 person2.hobbies.push("Sports");
 console.log(anotherPerson); // but array inside stayed referenced, cause it was not a deep nested object clone, just the top level.
+
+// Object.assign() - alternative to spread operator
+
+const stillAnotherPerson = Object.assign({}, person2, person); // merge all key-value pairs into new object
+console.log(stillAnotherPerson);
