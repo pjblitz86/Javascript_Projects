@@ -27,7 +27,7 @@ const renderMovies = (filter = "") => {
     const { title: movieTitle } = info; // destructure and assign new prop name
     let text = movieTitle + " - ";
     for (const key in info) {
-      if (key !== "title") {
+      if (key !== "title" && key !== "_title") {
         text = text + `${key}: ${info[key]}`;
       }
     }
@@ -42,25 +42,34 @@ const addMovieHandler = () => {
   const extraValue = document.getElementById("extra-value").value;
 
   // simple validation
-  if (
-    title.trim() === "" ||
-    extraName.trim() === "" ||
-    extraValue.trim() === ""
-  ) {
+  if (extraName.trim() === "" || extraValue.trim() === "") {
     return;
   }
 
   const newMovie = {
     info: {
-      title,
+      // setters and getters in obj
+      set title(val) {
+        if (val.trim() === "") {
+          this._title = "DEFAULT";
+          return;
+        }
+        this._title = val;
+      },
+      get title() {
+        return this._title;
+      },
       [extraName]: extraName
     },
     id: Math.random().toString(),
     getFormattedTitle() {
       // cannot use arrow function here
-      this.info.title.toUpperCase(); // 'this' refers to closest outer object
+      this.info.title.toUpperCase(); // 'this' refers to the caller that call this function
     }
   };
+
+  newMovie.info.title = title; // setter
+  console.log(newMovie.info.title); // getter
 
   movies.push(newMovie);
   console.log(movies);
