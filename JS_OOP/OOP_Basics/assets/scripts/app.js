@@ -39,6 +39,27 @@ class ProductList {
 class ShoppingCart {
   items = [];
 
+  set cartItems(value) {
+    this.items = value;
+    this.totalOutput.innerHTML = `<h2>Total amount: \$${this.totalAmount.toFixed(
+      2
+    )}</h2>`;
+  }
+
+  get totalAmount() {
+    const sum = this.items.reduce(
+      (prevValue, curItem) => prevValue + curItem.price,
+      0
+    );
+    return sum;
+  }
+
+  addProduct(product) {
+    const updatedItems = [...this.items];
+    updatedItems.push(product);
+    this.cartItems = updatedItems;
+  }
+
   render() {
     const cartEl = document.createElement("section");
     cartEl.innerHTML = `
@@ -46,6 +67,7 @@ class ShoppingCart {
       <button>Order Now!</button>
     `;
     cartEl.className = "cart";
+    this.totalOutput = cartEl.querySelector("h2");
     return cartEl;
   }
 }
@@ -56,7 +78,7 @@ class ProductItem {
   }
 
   addToCart() {
-    console.log("adding to cart", this.product);
+    App.addProductToCart(this.product);
   }
 
   render() {
@@ -83,8 +105,8 @@ class ProductItem {
 class Shop {
   render() {
     const renderHook = document.getElementById("app");
-    const cart = new ShoppingCart();
-    const cartEl = cart.render();
+    this.cart = new ShoppingCart();
+    const cartEl = this.cart.render();
     const productList = new ProductList();
     const prodListEl = productList.render();
     renderHook.append(cartEl);
@@ -92,5 +114,20 @@ class Shop {
   }
 }
 
-const shop = new Shop();
-shop.render();
+class App {
+  static cart;
+
+  static init() {
+    const shop = new Shop();
+    shop.render();
+    this.cart = shop.cart;
+  }
+
+  // use static method as a proxy
+  static addProductToCart(product) {
+    this.cart.addProduct(product);
+  }
+}
+
+// call static method directly with class
+App.init();
