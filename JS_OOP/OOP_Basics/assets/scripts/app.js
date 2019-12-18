@@ -12,17 +12,37 @@ class Product {
   }
 }
 
+class ElementAttribute {
+  constructor(attrName, attrValue) {
+    this.attrName = attrName;
+    this.attrValue = attrValue;
+  }
+}
+
+class Component {
+  constructor(renderHookId) {
+    this.hookId = renderHookId;
+  }
+
+  createRootElement(tag, cssClasses, attributes) {
+    const rootElement = document.createElement(tag);
+    if (cssClasses) {
+      rootElement.className = cssClasses;
+    }
+    if (attributes && attributes.length > 0) {
+      for (const attr of attributes) {
+        rootElement.setAttribute(attr.name, attr.value);
+      }
+    }
+    document.getElementById(this.hookId).append(rootElement);
+    return rootElement;
+  }
+}
+
 class ProductList {
   products = [
-    new Product("A Pillow", "pillow", "soft pillow", 9.99), // now thats the way of code reuse on objects, we create instance of class
+    new Product("A Pillow", "pillow", "soft pillow", 9.99),
     new Product("A Carpet", "carpet", "a carpet for ya", 89.99)
-
-    // {
-    //   title: "A Carpet",
-    //   imageUrl: "carpet",
-    //   price: 89.99,
-    //   description: "a carpet for ya"
-    // } // hard to write reusable code with this structure, always have add manually, solution: use classes
   ];
   render() {
     const prodList = document.createElement("ul");
@@ -36,7 +56,7 @@ class ProductList {
   }
 }
 
-class ShoppingCart {
+class ShoppingCart extends Component {
   items = [];
 
   set cartItems(value) {
@@ -54,6 +74,10 @@ class ShoppingCart {
     return sum;
   }
 
+  constructor(renderHookId) {
+    super(renderHookId);
+  }
+
   addProduct(product) {
     const updatedItems = [...this.items];
     updatedItems.push(product);
@@ -61,14 +85,12 @@ class ShoppingCart {
   }
 
   render() {
-    const cartEl = document.createElement("section");
+    const cartEl = this.createRootElement("section", "cart");
     cartEl.innerHTML = `
-      <h2>Total amount: \$${0.4}</h2>
+      <h2>Total amount: \$${0}</h2>
       <button>Order Now!</button>
     `;
-    cartEl.className = "cart";
     this.totalOutput = cartEl.querySelector("h2");
-    return cartEl;
   }
 }
 
@@ -83,7 +105,7 @@ class ProductItem {
 
   render() {
     const prodEl = document.createElement("li");
-    prodEl.classList = "product-item";
+    prodEl.className = "product-item";
     prodEl.innerHTML = `
       <div>
         <img src="${this.product.imageUrl}" alt="${this.product.title}"/> 
@@ -105,11 +127,10 @@ class ProductItem {
 class Shop {
   render() {
     const renderHook = document.getElementById("app");
-    this.cart = new ShoppingCart();
-    const cartEl = this.cart.render();
+    this.cart = new ShoppingCart("app");
+    this.cart.render();
     const productList = new ProductList();
     const prodListEl = productList.render();
-    renderHook.append(cartEl);
     renderHook.append(prodListEl);
   }
 }
