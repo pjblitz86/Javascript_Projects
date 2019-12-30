@@ -1,4 +1,4 @@
-// Top to bottom step by step execution
+// Top to bottom step by step linear/statement execution
 
 const form = document.getElementById("user-input");
 
