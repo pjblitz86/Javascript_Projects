@@ -172,6 +172,14 @@ class App {
     finishedProjectList.setSwitchHandlerFunction(
       activeProjectList.addProject.bind(activeProjectList)
     );
+    this.startAnalytics();
+  }
+
+  static startAnalytics() {
+    const analyticsScript = document.createElement("script"); // useful for loading script at certain moment/event not immediately
+    analyticsScript.src = "assets/scripts/analytics.js";
+    analyticsScript.defer = true;
+    document.head.append(analyticsScript);
   }
 }
 
