@@ -172,7 +172,13 @@ class App {
     finishedProjectList.setSwitchHandlerFunction(
       activeProjectList.addProject.bind(activeProjectList)
     );
-    this.startAnalytics();
+
+    const timerId = setTimeout(this.startAnalytics, 3000); // async code does not block code execution
+    const stopAnalyticsBtn = document
+      .getElementById("stop-analytics-btn")
+      .addEventListener("click", () => {
+        clearTimeout(timerId);
+      });
   }
 
   static startAnalytics() {
