@@ -56,10 +56,11 @@ div.addEventListener("click", event => {
   console.log(event);
 }); // if 3rd param true, then capturing phase will run before, outside to inside, useful if you wanna switch the order
 
-button.addEventListener("click", event => {
+button.addEventListener("click", function(event) {
   event.stopPropagation(); // will prevent capture and bubbling to any ancestors
   console.log("clicked BUTTON");
   console.log(event);
+  console.log(this);
 });
 
 // as we see it bubbles from inside most element to outside
@@ -76,10 +77,12 @@ const list = document.querySelector("ul");
 // });
 
 // better is delegate pattern, we take advantage of propagation - just 1 event listener for ul
-list.addEventListener("click", event => {
+list.addEventListener("click", function(event) {
   // console.log(event.currentTarget);
   // event.target.classList.toggle("highlight"); // will refer to actual target we clicked - in this case li
   event.target.closest("li").classList.toggle("highlight"); // traverses up with inclusion of itself
+  console.log(this);
+  //form.submit(); // triggering dom elements from 1 event listener
 });
 
 // more complex example with nested li, when event target doesnt help - dom traversal ti the rescue - closest()
