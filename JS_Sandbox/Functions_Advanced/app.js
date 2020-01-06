@@ -95,3 +95,50 @@ function powerOf(x, n) {
 }
 
 console.log(powerOf(2, 3));
+
+// deep nest obj with a pattern
+const myself = {
+  name: "Paul",
+  friends: [
+    {
+      name: "Max",
+      friends: [
+        {
+          name: "Chris",
+          friends: [
+            {
+              name: "Peter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      name: "Julia"
+    }
+  ]
+};
+
+function getFriendNames(person) {
+  // for(const friends of person.friends) {
+  //   for(const friendsFriends of friends.friends) { // but some friends dont have friends so not clear if we need another nested loop, this is where recursion shines
+
+  //   }
+  // }
+
+  const collectedNames = [];
+
+  if (!person.friends) {
+    return [];
+  }
+
+  for (const friend of person.friends) {
+    // now use recursion to go through all nested friends
+    collectedNames.push(friend.name);
+    collectedNames.push(...getFriendNames(friend));
+  }
+
+  return collectedNames;
+}
+
+console.log(getFriendNames(myself));
