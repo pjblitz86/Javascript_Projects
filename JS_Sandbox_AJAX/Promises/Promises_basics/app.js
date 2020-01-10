@@ -53,14 +53,13 @@ function trackUserHandler() {
 // async/await rewritten for trackUserHandler function
 async function trackUserHandler2() {
   // async wraps whole function to return a promise
-
   try {
     // async await error handling
     const posData = await getPosition(); // looks like synchronous code but it isnt
     const timerData = await setTimer(2000);
     // under the hood it still works like 'then' chaining
     // throw Error("sum ting went wong...");
-    console.log("Not synchronous..");
+    console.log("will appear after await cause whole function is async");
     console.log(timerData, posData);
   } catch (err) {
     console.log(err);
@@ -68,3 +67,15 @@ async function trackUserHandler2() {
 }
 
 button.addEventListener("click", trackUserHandler2);
+
+Promise.race([getPosition(), setTimer(1000)]).then(fastestPromise => {
+  console.log(fastestPromise);
+}); // race conditions
+
+Promise.all([getPosition(), setTimer(1000)]).then(promiseData => {
+  console.log(promiseData); // returns all promises in array
+});
+
+Promise.allSettled([getPosition(), setTimer(1000)]).then(promiseData => {
+  console.log(promiseData);
+});
