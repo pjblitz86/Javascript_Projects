@@ -3,11 +3,14 @@ const output = document.querySelector("p");
 
 const getPosition = opts => {
   const promise = new Promise((resolve, reject) => {
+    // promise can be pending, resolved or failed.
     navigator.geolocation.getCurrentPosition(
       success => {
         resolve(success);
       },
-      error => {},
+      error => {
+        reject(error);
+      },
       opts
     );
   });
@@ -32,20 +35,28 @@ function trackUserHandler() {
     })
     .then(data => {
       console.log(data, positionData);
+    })
+    .catch(err => {
+      // catches any errors prior in this promise chain, so usually this block is at the end.
+      console.log(err);
+    })
+    .finally(() => {
+      console.log("final cleanup");
     });
 
-  setTimer(1000).then(() => {
-    console.log("Timer done!");
-  });
-  console.log("Getting position...");
+  // setTimer(1000).then(() => {
+  //   console.log("Timer done!");
+  // });
+  // console.log("Getting position...");
 }
 
-button.addEventListener("click", trackUserHandler);
+// async/await rewritten for trackUserHandler function
+async function trackUserHandler2() {
+  // async wraps whole function to return a promise
+  const posData = await getPosition(); // looks like synchronous code but it isnt
+  const timerData = await setTimer(2000);
+  console.log(timerData, posData);
+  // under the hood it still works like 'then' chaining
+}
 
-// let result = 0;
-
-// for (let i = 0; i < 100000000; i++) {
-//   result += i;
-// }
-
-// console.log(result);
+button.addEventListener("click", trackUserHandler2);
