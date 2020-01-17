@@ -13,8 +13,17 @@ function sendHttpRequest(method, url, data) {
     xhr.responseType = "json"; // we dont need JSON.parse then
 
     xhr.onload = function() {
-      resolve(xhr.response);
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject(new Error("sum ting wong!"));
+      }
     };
+
+    xhr.onerror = function() {
+      reject(new Error("Failed to send request"));
+    };
+
     xhr.send(JSON.stringify(data));
   });
   return promise;
@@ -22,8 +31,8 @@ function sendHttpRequest(method, url, data) {
 
 // using then chaining
 function getPosts() {
-  sendHttpRequest("GET", "https://jsonplaceholder.typicode.com/posts").then(
-    responseData => {
+  sendHttpRequest("GET", "https://jsonplaceholder.typicode.com/postss")
+    .then(responseData => {
       const listOfPosts = responseData;
       for (const post of listOfPosts) {
         const postEl = document.importNode(postTemplate.content, true);
@@ -32,8 +41,8 @@ function getPosts() {
         postEl.querySelector("li").id = post.id;
         listElement.append(postEl);
       }
-    }
-  );
+    })
+    .catch(err => console.log(err.message));
 }
 
 // in async/await
