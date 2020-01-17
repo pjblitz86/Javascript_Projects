@@ -33,7 +33,10 @@ function sendHttpRequest(method, url, data) {
   // *** FETCH API ***
   return fetch(url, {
     method: method,
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
   }).then(response => {
     return response.json();
   }); // gives streamed response need to parse it
