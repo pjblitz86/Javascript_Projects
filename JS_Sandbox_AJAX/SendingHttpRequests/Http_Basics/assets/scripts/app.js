@@ -7,31 +7,41 @@ const fetchBtn = document.querySelector("#available-posts button");
 const postList = document.querySelector("ul"); // dont add event listener on all li, but use delegation
 
 function sendHttpRequest(method, url, data) {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.responseType = "json"; // we dont need JSON.parse then
+  // const promise = new Promise((resolve, reject) => {
 
-    xhr.onload = function() {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject(new Error("sum ting wong!"));
-      }
-    };
+  // *** old school xmlhttp object ***
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.open(method, url);
+  //   xhr.responseType = "json"; // we dont need JSON.parse then
 
-    xhr.onerror = function() {
-      reject(new Error("Failed to send request"));
-    };
+  //   xhr.onload = function() {
+  //     if (xhr.status >= 200 && xhr.status < 300) {
+  //       resolve(xhr.response);
+  //     } else {
+  //       reject(new Error("sum ting wong!"));
+  //     }
+  //   };
 
-    xhr.send(JSON.stringify(data));
-  });
-  return promise;
+  //   xhr.onerror = function() {
+  //     reject(new Error("Failed to send request"));
+  //   };
+
+  //   xhr.send(JSON.stringify(data));
+  // });
+  // return promise;
+
+  // *** FETCH API ***
+  return fetch(url, {
+    method: method,
+    body: JSON.stringify(data)
+  }).then(response => {
+    return response.json();
+  }); // gives streamed response need to parse it
 }
 
 // using then chaining
 function getPosts() {
-  sendHttpRequest("GET", "https://jsonplaceholder.typicode.com/postss")
+  sendHttpRequest("GET", "https://jsonplaceholder.typicode.com/posts")
     .then(responseData => {
       const listOfPosts = responseData;
       for (const post of listOfPosts) {
