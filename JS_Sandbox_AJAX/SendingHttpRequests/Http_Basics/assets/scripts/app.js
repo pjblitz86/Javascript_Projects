@@ -2,7 +2,7 @@
 
 const listElement = document.querySelector(".posts");
 const postTemplate = document.getElementById("single-post");
-const form = document.querySelector("#new-post");
+const form = document.querySelector("#new-post form");
 const fetchBtn = document.querySelector("#available-posts button");
 const postList = document.querySelector("ul"); // dont add event listener on all li, but use delegation
 
@@ -33,10 +33,11 @@ function sendHttpRequest(method, url, data) {
   // *** FETCH API ***
   return fetch(url, {
     method: method,
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json"
-    }
+    // body: JSON.stringify(data),
+    body: data
+    // headers: {
+    //   "Content-Type": "application/json"
+    // }
   })
     .then(response => {
       if (response.status >= 200 && response.status < 300) {
@@ -78,7 +79,14 @@ async function createPost(title, content) {
     body: content,
     userId: userId
   };
-  sendHttpRequest("POST", "https://jsonplaceholder.typicode.com/posts", post);
+
+  const fd = new FormData(form); // form inputs in html must have name attr, of course API has to accept form-data format
+  // adv: can send a mix of content-types and files
+  // fd.append("title", title);
+  // fd.append("body", content);
+  fd.append("title", userId);
+
+  sendHttpRequest("POST", "https://jsonplaceholder.typicode.com/posts", fd);
 }
 
 fetchBtn.addEventListener("click", getPosts);
