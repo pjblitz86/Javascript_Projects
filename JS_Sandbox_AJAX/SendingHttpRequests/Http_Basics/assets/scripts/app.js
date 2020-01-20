@@ -37,9 +37,21 @@ function sendHttpRequest(method, url, data) {
     headers: {
       "Content-Type": "application/json"
     }
-  }).then(response => {
-    return response.json();
-  }); // gives streamed response need to parse it
+  })
+    .then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+        return response.json().then(errData => {
+          console.log(errData);
+          throw new Error("smth went wong serverside - inner promise chain");
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      throw new Error("smth went wong - outter promise chain");
+    });
 }
 
 // using then chaining
