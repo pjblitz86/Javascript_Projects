@@ -1,4 +1,7 @@
-export class Component {
+export function doSmth() {}
+
+export default class {
+  // default export syntax - can have 1 per file
   constructor(hostElementId, insertBefore = false) {
     if (hostElementId) {
       this.hostElement = document.getElementById(hostElementId);

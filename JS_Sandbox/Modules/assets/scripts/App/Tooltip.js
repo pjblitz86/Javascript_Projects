@@ -1,4 +1,6 @@
-import { Component } from "./Component.js";
+import Component, { doSmth } from "./Component.js"; // default import + named import
+
+doSmth();
 
 export class Tooltip extends Component {
   constructor(closeNotifierFunction, text, hostElementId) {
