@@ -1,6 +1,6 @@
 import { ProjectList } from "./App/ProjectList.js";
 
-const DEFAULT_VALUE = "PAUL";
+// const DEFAULT_VALUE = "PAUL";
 window.DEFAULT_VALUE = "JOHN"; // share global data - as a last resort
 
 class App {
