@@ -1,5 +1,7 @@
-import { ProjectItem } from "./ProjectItem.js";
+import { ProjectItem } from "./ProjectItem.js"; // static import
 import * as DOMH from "../Utility/DOMHelper.js"; // bundling import in object
+
+// console.log(DEFAULT_VALUE); // wont find
 
 export class ProjectList {
   projects = [];
