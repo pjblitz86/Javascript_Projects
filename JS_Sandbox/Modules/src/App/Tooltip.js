@@ -1,4 +1,4 @@
-import Component, { doSmth } from "./Component.js"; // default import + named import
+import Component, { doSmth } from "./Component"; // default import + named import
 
 doSmth();
 
@@ -7,13 +7,12 @@ export class Tooltip extends Component {
     super(hostElementId);
     this.closeNotifier = closeNotifierFunction;
     this.text = text;
+    closeTooltip = () => {
+      this.detach();
+      this.closeNotifier();
+    };
     this.create();
   }
-
-  closeTooltip = () => {
-    this.detach();
-    this.closeNotifier();
-  };
 
   create() {
     const tooltipElement = document.createElement("div");
