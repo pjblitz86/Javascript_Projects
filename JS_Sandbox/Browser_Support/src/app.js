@@ -20,3 +20,7 @@ button.addEventListener("click", () => {
     alert("Feauture not available");
   }
 });
+
+// you can use polyfills - it recreates the feauture in broser that doesnt support it
+
+// for not supported core JS features you can use transpilation (babel) - to ES5
