@@ -1,3 +1,5 @@
+// import "core-js/features/promise";
+
 const button = document.querySelector("button");
 const textParagraph = document.querySelector("p");
 
@@ -5,6 +7,8 @@ const textParagraph = document.querySelector("p");
 
 button.addEventListener("click", () => {
   const text = textParagraph.textContent;
+  const promise = new Promise();
+  console.log(promise);
   if (navigator.clipboard) {
     // wont run if browser doesnt support it
     navigator.clipboard
@@ -21,6 +25,6 @@ button.addEventListener("click", () => {
   }
 });
 
-// you can use polyfills - it recreates the feauture in broser that doesnt support it
+// you can use polyfills - it recreates the feauture in broser that doesnt support it -auto detect and add polyfills feature
 
 // for not supported core JS features you can use transpilation (babel) - to ES5
