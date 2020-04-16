@@ -11,15 +11,16 @@ const PORT = 3000 || process.env.PORT;
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
-  // to current user only
   socket.emit("message", "Welcome to PJ Chat");
 
-  // to everyone except the user
   socket.broadcast.emit("message", "A user has joined the chat");
 
   socket.on("disconnect", () => {
-    // to everyone
     io.emit("message", "A user has left the chat");
+  });
+
+  socket.on("chatMessage", (msg) => {
+    io.emit("message", msg);
   });
 });
 
