@@ -1,1 +1,1 @@
-console.log("it just works!");
+import "./scss/app.scss";
