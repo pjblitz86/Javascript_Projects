@@ -13,8 +13,20 @@
   <body>
     <h3>Hello world</h3>
 
-    <user-card name="Paul Juken"></user-card>
-    <user-card name="Paul Jukman"></user-card>
+    <user-card
+      name="John Doe"
+      avatar="https://randomuser.me/api/portraits/men/1.jpg"
+    >
+      <div slot="email">john@doe.com</div>
+      <div slot="phone">+44-4444-4444</div>
+    </user-card>
+    <user-card
+      name="Jane Doe"
+      avatar="https://randomuser.me/api/portraits/women/2.jpg"
+    >
+      <div slot="email">jane@doe.com</div>
+      <div slot="phone">+22-22-22-22</div>
+    </user-card>
 
     <script src="userCard.js"></script>
   </body>
